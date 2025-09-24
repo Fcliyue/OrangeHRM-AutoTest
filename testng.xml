@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="OrangeHRM_Automation_Suite" parallel="false">
+    <listeners>
+        <listener class-name="com.orangehrm.listeners.RetryListener"></listener>
+    </listeners>
+    <!-- Test suite for login functionality -->
+    <test name="Login_Test_Suite">
+        <classes>
+            <!-- Include Cucumber Runner class for login -->
+            <class name="com.orangehrm.runners.LoginRunner"/>
+            <!-- Add other runner classes here (e.g., DashboardTestRunner) in future -->
+        </classes>
+    </test>
+</suite>
