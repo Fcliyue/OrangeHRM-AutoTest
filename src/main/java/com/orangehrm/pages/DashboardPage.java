@@ -1,5 +1,6 @@
 package com.orangehrm.pages;
 
+import com.orangehrm.utils.SeleniumUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -16,8 +17,8 @@ public class DashboardPage extends BasePage {
     private final String PIM_LINK_BY_XPATH = "//a[contains(@href,'/web/index.php/pim/viewPimModule')]";
     private final String MAIN_MANU_BUTTON_BY_XPATH = "//button[contains(@class,'oxd-main-menu-button')]";
     private final String PIM_PAGE_HEADER_BY_XPATH = "//h6[text()='PIM']";
-/*    oxd-sidepanel
-    oxd-sidepanel toggled*/
+
+    SeleniumUtils seleniumUtils = new SeleniumUtils();
 
     public DashboardPage(WebDriver driver) {
         super(driver);

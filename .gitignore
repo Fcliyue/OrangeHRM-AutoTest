@@ -1,0 +1,41 @@
+# 日志文件
+*.log
+logs/
+*.logs
+
+# 报告文件
+report/
+reports/
+*.pdf
+*.html
+*.csv
+
+# 编译输出
+build/
+dist/
+target/
+*.class
+*.jar
+*.war
+
+# 依赖目录
+node_modules/
+vendor/
+
+# 配置文件（但不包括示例配置）
+*.local
+config/local.yml
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# IDE 文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 临时文件
+*.tmp
+*.temp

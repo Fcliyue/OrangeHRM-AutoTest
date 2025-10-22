@@ -8,7 +8,7 @@
     <test name="Login_Test_Suite">
         <classes>
             <!-- Include Cucumber Runner class for login -->
-            <class name="com.orangehrm.runners.LoginRunner"/>
+            <class name="com.orangehrm.runners.PimRunner"/>
             <!-- Add other runner classes here (e.g., DashboardTestRunner) in future -->
         </classes>
     </test>

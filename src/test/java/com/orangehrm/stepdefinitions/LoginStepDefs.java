@@ -1,56 +1,21 @@
 package com.orangehrm.stepdefinitions;
 
+import com.orangehrm.driver.DriverManager;
 import com.orangehrm.pages.DashboardPage;
 import com.orangehrm.pages.LoginPage;
 import com.orangehrm.utils.ConfUtils;
-import com.orangehrm.utils.LoggerUtils;
-import org.apache.logging.log4j.Logger;
-import com.orangehrm.utils.ScreenShotUtils;
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
-import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.testng.Assert;
 
 public class LoginStepDefs {
-    private WebDriver driver;
-    private LoginPage loginPage;
-    private DashboardPage dashboardPage;
-    private static final Logger log = LoggerUtils.getLogger();
+    private final WebDriver driver = DriverManager.getDriver();
+    private final LoginPage loginPage = new LoginPage(driver);
+    private final DashboardPage dashboardPage = new DashboardPage(driver);
 
-  @Before
-    public void setupBrowser() {
-        log.debug("Initializing WebDriver");
-        System.out.println("Start----------------");
-        System.setProperty("webdriver.chrome.driver", "C:\\tools\\mytest\\chromedriver-win64\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        loginPage = new LoginPage(driver);
-        dashboardPage = new DashboardPage(driver);
-    }
-
-    @After
-    public void closeBrowser(Scenario scenario) {
-        try {
-            if (scenario.isFailed()) {
-                String scenarioName = scenario.getName().replaceAll(" ", "_");
-                String screenshotPath = ScreenShotUtils.captureScreenshot(driver, scenarioName);
-                scenario.attach("Screenshot saved to: " + screenshotPath, "text/plain", "Failure Screenshot Path");
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        } finally {
-            if (driver != null) {
-                driver.quit();
-                System.out.println("Browser closed successfully");
-            }
-        }
-    }
     @Given("The OrangeHRM login page is launched")
     public void launchLoginPage() {
         loginPage.openLoginPage();
@@ -78,15 +43,10 @@ public class LoginStepDefs {
         dashboardPage.gotoPimPage();
         Assert.assertTrue(dashboardPage.isPimPageDisplay());
     }
+
     @Then("User logout")
-    public void logout(){
+    public void logout() {
         dashboardPage.logout();
     }
-
-/*    @Then("The login should fail, and error message {string} should be displayed")
-    public void verifyFailedLogin(String expectedText) {
-        String text = loginPage.gerErrorMessage();
-        Assert.assertEquals(text, expectedText, "'Login failure verification failed: Error message mismatch");
-    }*/
 
 }

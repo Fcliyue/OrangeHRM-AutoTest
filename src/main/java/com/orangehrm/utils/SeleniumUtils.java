@@ -16,6 +16,13 @@ public class SeleniumUtils {
         WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT);
         return wait.until(ExpectedConditions.visibilityOfElementLocated(LocatorUtils.locator(locatorType,locatorValue)));
     }
+
+    public void waitElementClickable(WebDriver driver,WebElement webElement){
+        WebDriverWait wait = new WebDriverWait(driver, WAIT_TIMEOUT);
+        wait.until(ExpectedConditions.elementToBeClickable(webElement));
+    }
+
+
     //等待元素可见后，输入文本
     public void sendKeys(WebDriver driver, String locatorType, String locatorValue, String keys) {
         WebElement element = findElement(driver,locatorType,locatorValue);

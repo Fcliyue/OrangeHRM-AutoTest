@@ -8,11 +8,11 @@ import org.testng.annotations.Listeners;
 
 @Listeners(RetryListener.class)
 @CucumberOptions(
-        features = "src/test/resources/features/user_login.feature",
+        features = "src/test/resources/features/add_employee.feature",
         glue = "com.orangehrm.stepdefinitions",
         plugin = {
-                "html:target/cucumber-reports/LoginTestReport.html",
-                "json:target/cucumber-reports/LoginTestReport.json",
+                "html:target/cucumber-reports/PIMTestReport.html",
+                "json:target/cucumber-reports/PIMTestReport.json",
                 "pretty",
                 "timeline:target/cucumber-reports/timeline/"
         },
@@ -20,7 +20,7 @@ import org.testng.annotations.Listeners;
         tags = ""
 )
 
-public class LoginRunner extends AbstractTestNGCucumberTests {
+public class PimRunner extends AbstractTestNGCucumberTests {
         @Override
         @DataProvider(parallel = true)
         public Object[][] scenarios(){

@@ -1,54 +1,67 @@
 package com.orangehrm.pages;
 
-import com.orangehrm.utils.ConfUtils;
 import com.orangehrm.utils.SeleniumUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends BasePage {
-    private final String USERNAME_INPUT_BY_NAME = "username";
-    private final String PASSWORD_INPUT_BY_NAME = "password";
-    private final String LOGIN_BUTTON_BY_XPATH = "//button[@type='submit']";
-    private final String ERROR_MESSAGE_BY_XPATH = "//span[contains(@class, 'oxd-input-field-error-message')] | //p[contains(@class, 'oxd-alert-content-text')]";
-    private final String PAGE_TITLE_BY_XPATH = "//title[text()='OrangeHRM']";
+
+
     private final String PAGE_URL = "https://opensource-demo.orangehrmlive.com";
     private final String DASHBOARD_URL = "/dashboard";
-    public static final String LOGIN_PAGE_URL = "https://opensource-demo.orangehrmlive.com/";  //改成静态变量，供外部使用
+    public static final String LOGIN_PAGE_URL = "https://opensource-demo.orangehrmlive.com/";//改成静态变量，供外部使用
+
+    SeleniumUtils seleniumUtils = new SeleniumUtils();
+    @FindBy(name = "username")
+    private WebElement usernameInput;
+    @FindBy(name = "password")
+    private WebElement passwordInput;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement loginButton;
+
+    @FindBy(xpath = "//span[contains(@class, 'oxd-input-field-error-message')] | //p[contains(@class, 'oxd-alert-content-text')]")
+    private WebElement errorMessage;
+
+    @FindBy(xpath = "//title[text()='OrangeHRM']")
+    private WebElement pageTitle;
 
     public LoginPage (WebDriver driver){
         super(driver);
+        PageFactory.initElements(driver,this);
     }
     public void openLoginPage() {
         openUrl(PAGE_URL);
     }
-    public WebElement getUsernameInput() {
-        return seleniumUtils.findElement(driver, "name", USERNAME_INPUT_BY_NAME);
+    public void enterUserName(String username) {
+        seleniumUtils.waitElementClickable(driver,usernameInput);
+        usernameInput.clear();
+        usernameInput.sendKeys(username);
     }
 
-    public WebElement getPasswordInput() {
-        return seleniumUtils.findElement(driver, "name", PASSWORD_INPUT_BY_NAME);
-    }
-
-    public WebElement getLoginButton() {
-        return seleniumUtils.findElement(driver, "xpath", LOGIN_BUTTON_BY_XPATH);
+    public void enterPassword(String password) {
+        seleniumUtils.waitElementClickable(driver,passwordInput);
+        passwordInput.clear();
+        passwordInput.sendKeys(password);
     }
 
     public String getTitle(){
         return seleniumUtils.getElementTitle(driver);
     }
 
-    public String gerErrorMessage() {
-        WebElement element = seleniumUtils.findElement(driver, "xpath", ERROR_MESSAGE_BY_XPATH);
-        return element.getText();
+    public String getErrorMessage() {
+        return errorMessage.getText();
     }
 
     public void clickLoginButton() {
-        getLoginButton().click();
+        loginButton.click();
     }
 
     public void enterLoginCredentials(String username, String password) {
-        seleniumUtils.sendKeys(getUsernameInput(), username);
-        seleniumUtils.sendKeys(getPasswordInput(), password);
+        enterUserName(username);
+        enterPassword(password);
         System.out.println("Enter username: " + username + "; Enter password: " + password);
     }
 
@@ -57,8 +70,5 @@ public class LoginPage extends BasePage {
         return new DashboardPage(driver);
     }
 
-    public boolean isLoginPageDisplayed() {
-        return seleniumUtils.isPageDisplayed(driver, "xpath",PAGE_TITLE_BY_XPATH);
-    }
 
 }
