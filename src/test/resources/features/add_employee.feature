@@ -9,7 +9,6 @@ Feature: Add New Employee
           And Click the login button
           Then The login should be successful, and the Dashboard page is shown
           And Go to the PIM page
-          Then User logout
 
     Scenario Outline: Add employee with valid details
           When I enter first name "<firstName>" last name "<lastName>"

@@ -2,6 +2,8 @@ package com.orangehrm.stepdefinitions;
 
 
 import com.orangehrm.driver.DriverManager;
+import com.orangehrm.pages.DashboardPage;
+import com.orangehrm.pages.LoginPage;
 import com.orangehrm.pages.pim.PimPage;
 import com.orangehrm.utils.LoggerUtils;
 import io.cucumber.java.en.And;
@@ -13,13 +15,9 @@ import org.testng.Assert;
 
 
 public class AddEmployeeSteps {
-    private WebDriver driver;
-    private PimPage pimPage;
+    private final WebDriver driver = DriverManager.getDriver();
+    private final PimPage pimPage = new PimPage(driver);
     private static final Logger log = LoggerUtils.getLogger();
-    public AddEmployeeSteps(){
-        this.driver = DriverManager.getDriver();
-        this.pimPage = new PimPage(driver);
-    }
 
     @When("I enter first name {string} last name {string}")
     public void enterEmployeeName(String firstName, String lastName){

@@ -9,7 +9,8 @@ import org.testng.annotations.Listeners;
 @Listeners(RetryListener.class)
 @CucumberOptions(
         features = "src/test/resources/features/user_login.feature",
-        glue = "com.orangehrm.stepdefinitions",
+        glue = {"com.orangehrm.stepdefinitions",
+        "com.orangehrm.hooks"},
         plugin = {
                 "html:target/cucumber-reports/LoginTestReport.html",
                 "json:target/cucumber-reports/LoginTestReport.json",
