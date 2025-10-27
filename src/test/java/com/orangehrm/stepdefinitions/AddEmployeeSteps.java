@@ -19,7 +19,12 @@ public class AddEmployeeSteps {
     private final PimPage pimPage = new PimPage(driver);
     private static final Logger log = LoggerUtils.getLogger();
 
-    @When("I enter first name {string} last name {string}")
+    @When("Add Employee page is displayed")
+    public void addEmployeePageIsShown(){
+        pimPage.clickAddEmployeeButton();
+        pimPage.isAddEmployeePageDisplayed();
+    }
+    @And("I enter first name {string} last name {string}")
     public void enterEmployeeName(String firstName, String lastName){
         pimPage.enterFirstName(firstName);
         pimPage.enterLastName(lastName);
@@ -39,7 +44,7 @@ public class AddEmployeeSteps {
         pimPage.saveEmployeeInfo();
     }
 
-    @Then("I should be redirect to PersonalDetails page")
+    @Then("I should be redirected to PersonalDetails page")
     public void personalDetailsPage(){
         pimPage.goToPersonDetails();
         log.info("Redirect to Personal details page!");

@@ -2,11 +2,9 @@ package com.orangehrm.pages.pim;
 
 import com.orangehrm.pages.BasePage;
 import com.orangehrm.utils.LoggerUtils;
+import com.orangehrm.utils.SeleniumUtils;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -18,6 +16,8 @@ public class PimPage extends BasePage {
     private final String ADD_EMPLOYEE_PAGE_URL = "https://opensource-demo.orangehrmlive.com/web/index.php/pim/addEmployee";
     private final String PERSON_DETAIL_PAGE_URL = "/pim/viewPersonalDetails/empNumber";
     private final String imageRelativePath = "src/test/resources/testPhotos/employeeImage.png";
+    SeleniumUtils seleniumUtils = new SeleniumUtils();
+
     @FindBy(xpath = "//button[text()=' Add ']")
     private WebElement addEmployeeButton;
 
@@ -36,17 +36,31 @@ public class PimPage extends BasePage {
     @FindBy(xpath = "//button[text()=' Save ']")
     private WebElement saveButton;
 
-    public PimPage(WebDriver driver) {
+    public PimPage(WebDriver driver){
         super(driver);
         PageFactory.initElements(driver,this);
-
     }
 
+    public void clickAddEmployeeButton(){
+        try {
+            seleniumUtils.waitElementClickable(driver,addEmployeeButton);
+            addEmployeeButton.click();
+        }catch (TimeoutException e){
+            log.error("Add Employee button is disabled!",e);
+            throw new IllegalStateException("Add Employee button is disabled!",e);
+        }
+    }
+
+    public void isAddEmployeePageDisplayed(){
+        String addEmployeePageUrl = "addEmployee";
+        seleniumUtils.isUrlContains(driver,addEmployeePageUrl);
+    }
     public void AddEmployeePage() {
         openUrl(ADD_EMPLOYEE_PAGE_URL);
     }
 
     public void enterFirstName(String firstName) {
+        seleniumUtils.waitForElementVisible(driver,firstNameInput);
         log.info("Entering first name: " + firstName);
         firstNameInput.clear();
         firstNameInput.sendKeys(firstName);
@@ -58,8 +72,11 @@ public class PimPage extends BasePage {
     }
 
     public void enterEmployeeId(String employeeId) {
+        seleniumUtils.waitForElementVisible(driver,employeeIdInput);
         log.info("Enter employeeId: " + employeeId);
         employeeIdInput.clear();
+        employeeIdInput.sendKeys(Keys.chord(Keys.CONTROL, "a"));
+        employeeIdInput.sendKeys(Keys.BACK_SPACE); // 删除选中内容
         employeeIdInput.sendKeys(employeeId);
     }
 
@@ -86,7 +103,9 @@ public class PimPage extends BasePage {
     }
 
     public String getEmployeeFirstName(){
-        return firstNameInput.getText();
+        seleniumUtils.waitForElementVisible(driver,firstNameInput);
+        String value = firstNameInput.getAttribute("value");
+        return value == null ? "" : value;
     }
     public void goToPersonDetails(){
         waitForPageLoad(PERSON_DETAIL_PAGE_URL);
